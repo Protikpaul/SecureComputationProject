@@ -46,13 +46,13 @@ int NumOfZeros(int a[], int n)
 //------------------------------------------------------------------------------------------------
 int main()
 {
-	int NumOfParties;
-	printf("Enter the number of parties:");
-	scanf("%d",&NumOfParties);
+	int NumOfParties=5, UpperBound=2;
+	printf("Enter the number of parties:\t 5");
+	//scanf("%d",&NumOfParties);
 	//----------------------------------------------------------------------------------------
 	int WtVecEval[NumOfParties+1], WtVecGen[NumOfParties+1];
-	WtVecEval[0]=0; WtVecEval[1]=1; WtVecEval[2]=1; WtVecEval[3]=1; WtVecEval[4]=1;
-	WtVecGen[0]=0; WtVecGen[1]=1; WtVecGen[2]=1; WtVecGen[3]=1; WtVecGen[4]=1;
+	WtVecEval[0]=0; WtVecEval[1]=0; WtVecEval[2]=0; WtVecEval[3]=0; WtVecEval[4]=0; WtVecEval[5]=0;
+	WtVecGen[0]=0; WtVecGen[1]=0; WtVecGen[2]=0; WtVecGen[3]=0; WtVecGen[4]=0; WtVecGen[5]=0;
 	/*for(int i = 1; i <= NumOfParties; i++)
 		{
 			WtVecEval[i]=1;
@@ -80,57 +80,65 @@ int main()
 	int IfHonest[NumOfParties+1];
 	
 	int a=pow(2, NumOfParties);
-	for(int i=0; i<a; i++)
+	for(int k1=1; k1<=UpperBound; k1++)
+	for(int k2=1; k2<=UpperBound; k2++)
+	for(int k3=1; k3<=UpperBound; k3++)
+	for(int k4=1; k4<=UpperBound; k4++)
+	for(int k5=1; k5<=UpperBound; k5++)
 	{
-		DecimalToBinary(i,IfHonest,NumOfParties);
-	//----------------------------------------------------------------------------------------
-		/* A party either an honest party or corrupt
-		if_honest[i]=0, then ith party is corrupt*/
-	//----------------------------------------------------------------------------------------
-		/*no check is required if number of corrupt parties is more than NumOfParties-2*/
-	//----------------------------------------------------------------------------------------
-		if(NumOfZeros(IfHonest, NumOfParties)<(NumOfParties-1))
+		WtVecEval[1]=k1; WtVecEval[2]=k2; WtVecEval[3]=k3; WtVecEval[4]=k4; WtVecEval[5]=k5;
+		for(int i=0; i<a; i++)
 		{
-			//------------------------------------------------------------------------	
-			/*check sum over j=1 to NumOfParties (WtVecEval[j].IfHonest[j])
-		 	>= (sum over j=1 to NumOfParties (WtVecEval))/2*/
-			//------------------------------------------------------------------------
-			int CheckEval=0, CheckGen=0;
-			bool EvalSecure, GenSecure;
-			for(int j=1; j<=NumOfParties; j++)
+			DecimalToBinary(i,IfHonest,NumOfParties);
+		//----------------------------------------------------------------------------------------
+			/* A party either an honest party or corrupt
+			if_honest[i]=0, then ith party is corrupt*/
+		//----------------------------------------------------------------------------------------
+			/*no check is required if number of corrupt parties is more than NumOfParties-2*/
+		//----------------------------------------------------------------------------------------
+			if(NumOfZeros(IfHonest, NumOfParties)<(NumOfParties-1))
 			{
-				CheckEval = CheckEval + IfHonest[j] * WtVecEval[j];
-				CheckGen = CheckGen + IfHonest[j] * WtVecGen[j];
+				//------------------------------------------------------------------------	
+				/*check sum over j=1 to NumOfParties (WtVecEval[j].IfHonest[j])
+			 	>= (sum over j=1 to NumOfParties (WtVecEval))/2*/
+				//------------------------------------------------------------------------
+				int CheckEval=0, CheckGen=0;
+				bool EvalSecure, GenSecure;
+				for(int j=1; j<=NumOfParties; j++)
+				{
+					CheckEval = CheckEval + IfHonest[j] * WtVecEval[j];
+					CheckGen = CheckGen + IfHonest[j] * WtVecGen[j];
+				}
+				if(CheckEval > floor(sum(WtVecEval, NumOfParties)/2))
+				{
+					printf("||\tEval is secure for %d\t ||",i);
+					EvalSecure=true;
+				}
+				else 
+				{
+					printf("\tEval is not secure for %d\t ||",i);
+					GenSecure=false;
+				}
+				if(CheckGen > floor(sum(WtVecGen, NumOfParties)/2))
+				{
+					printf("\tGen is secure for %d\t ||",i);
+					GenSecure=true;
+				}
+				else
+				{
+					printf("\tGen is not secure for %d\t ||",i);
+					GenSecure=false;
+				}
+				printf("\n");
+				if(EvalSecure || GenSecure)
+					printf("\t\t||Secure||\t\t\n");
+				else
+				{	
+					printf("\t\t||Not Secure||\n");
+					break;
+				}
 			}
-			if(CheckEval > floor(sum(WtVecEval, NumOfParties)/2))
-			{
-				printf("||\tEval is secure for %d\t ||",i);
-				EvalSecure=true;
-			}
-			else 
-			{
-				printf("\tEval is not secure for %d\t ||",i);
-				GenSecure=false;
-			}
-			if(CheckGen > floor(sum(WtVecGen, NumOfParties)/2))
-			{
-				printf("\tGen is secure for %d\t ||",i);
-				GenSecure=true;
-			}
-			else
-			{
-				printf("\tGen is not secure for %d\t ||",i);
-				GenSecure=false;
-			}
-			printf("\n");
-			if(EvalSecure || GenSecure)
-				printf("\t\t||Secure||\t\t\n");
-			else
-			{	
-				printf("\t\t||Not Secure||\n");
-				break;
-			}
+	 
 		}
- 
 	}
 }
