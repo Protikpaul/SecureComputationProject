@@ -64,31 +64,8 @@ int main()
 	//scanf("%d",&NumOfParties);
 	//----------------------------------------------------------------------------------------
 	int WtVecEval[NumOfParties+1], WtVecGen[NumOfParties+1];
-	WtVecEval[0]=0; WtVecEval[1]=0; WtVecEval[2]=0; WtVecEval[3]=0; WtVecEval[4]=0; //WtVecEval[5]=0;
-	WtVecGen[0]=0; WtVecGen[1]=0; WtVecGen[2]=1; WtVecGen[3]=1; WtVecGen[4]=1; //WtVecGen[5]=1;
-	/*for(int i = 1; i <= NumOfParties; i++)
-		{
-			WtVecEval[i]=1;
-			WtVecGen[i]=0;
-		}
-	/*
-	printf("Do you want manual inputs for weight values of Eval and Gen?(1/0):\n");
-	int ans;
-	scanf(" %d",&ans);
-	if(ans==1)
-	{
-		printf("Enter weight values of Eval and Gen:\n");
-		for(int i=1; i<=NumOfParties; i++)
-			scanf("%d%d",&WtVecEval[i],&WtVecGen[i]);
-	}
-	else if(ans==0)
-	{
-		for(int i = 1; i <= NumOfParties; i++)
-		{
-			WtVecEval[i]=1;
-			WtVecGen[i]=0;
-		}
-	}*/
+	WtVecEval[0]=0; WtVecEval[1]=0; WtVecEval[2]=0; WtVecEval[3]=0; WtVecEval[4]=0; WtVecEval[5]=0;
+	WtVecGen[0]=0; WtVecGen[1]=0; WtVecGen[2]=1; WtVecGen[3]=1; WtVecGen[4]=1; WtVecGen[5]=1;
 	//----------------------------------------------------------------------------------------
 	int IfHonest[NumOfParties+1];
 	init(IfHonest,NumOfParties);
@@ -113,6 +90,7 @@ int main()
 		printf("Check for Eval= {%d\t%d\t%d\t%d\t%d}\n", k1,k2,k3,k4,k5);
 		printf("Check for Gen= {%d\t%d\t%d\t%d\t%d}\n", l1,l2,l3,l4,l5);
 		if((k1==0 && k2==0 && k3==0 && k4==0 && k5==0)||(l1==0 && l2==0 && l3==0 && l4==0 && l5==0))
+		//((k1==0 && k2==0 && k3==0 && k4==0)||(l1==0 && l2==0 && l3==0 && l4==0))
 			break;
 		else
 		{
@@ -169,7 +147,6 @@ int main()
 					}
 					//-------------------------------------------------------------------------
 					printf("\n");
-					//if(EvalSecure == false && GenSecure == false) printf("--------------NOT SECURE------------\n");
 					if(EvalSecure || GenSecure)
 						printf("\t\t||Secure||\t\t\n");
 					else
@@ -184,7 +161,9 @@ int main()
 			if(flag==0)
 			{
 				printf("\tsecure for Eval={%d,\t%d,\t%d,\t%d\t%d}\n",k1,k2,k3,k4,k5);
+				//printf("\tsecure for Eval={%d,\t%d,\t%d,\t%d}\n",k1,k2,k3,k4);
 				printf("\tsecure for Gen={%d,\t%d,\t%d,\t%d\t%d}\n",l1,l2,l3,l4,l5);
+				//printf("\tsecure for Gen={%d,\t%d,\t%d,\t%d}\n",l1,l2,l3,l4);
 				goto OUTSIDE;
 			}
 		}	
