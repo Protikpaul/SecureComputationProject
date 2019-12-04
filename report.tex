@@ -2,11 +2,15 @@
 %Packages---------------------------------
 \usepackage{bm}
 %Macro------------------------------------
+\def\MPC{\mathsf{MPC}}
 \def\NIMPC{\mathsf{NIMPC}}
 \def\BITMPC{\mathsf{BIT-MPC}}
 \def\bitset{\{0,1\}}
 \def\view{\mathsf{View}}
 \def\eval{\mathsf{Eval}}
+\def\msg{\mathsf{Msg}}
+\def\gen{\mathsf{Gen}}
+\def\compile{\mathsf{Compile}}
 %-----------------------------------------
 \begin{document}
 
@@ -15,6 +19,8 @@ Best Possible Information-Theoretic Security for Multi-Party Computation ($\BITM
 \end{abstract}
 
 \input{Intro.tex}
+
+\input{Compiler.tex}
 
 \bibliographystyle{plain}
 \bibliography{references}

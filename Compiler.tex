@@ -1,0 +1,12 @@
+\section{Compiler}
+In the paper \cite{BITMPC}, a compiler is presented which starts with an $\NIMPC$ protocol for a function $f$, and constructs a $\BITMPC$ protocol for $f$. In more detail, the ingredients for the compiler are protocols for parties $P_1,\ldots, P_n$: 
+\begin{itemize}
+\item An $n$-party $\NIMPC$ protocol $\Pi=\{\gen,\msg,\eval\}$ for an $n$-input function $f$.
+\item An $n$-party interactive $\MPC$ protocol $\Psi_{\gen}$ for the randomized $\gen$ function of $\Pi$.
+\item An $n$-party interactive $\MPC$ protocol $\Psi_{\eval}$ for the $\eval$ function of $\Pi$.
+\end{itemize}
+Given these protocols, the resulting interactive protocol $\Phi = \compile(\Pi, \Psi_{\gen},\Psi_{\eval})$ is as follows. On inputs $x_1,\ldots, x_n$ held by $P_1,\ldots, P_n$ respectively:
+\begin{enumerate}
+\item The parties run $\Psi_{\gen}$ to evaluate $\gen$; $r_i$ is the output of party $P_i$;
+\item Each party $P_i$ computes locally $m_i=\msg(x_i,r_i)$;
+\end{enumerate}
