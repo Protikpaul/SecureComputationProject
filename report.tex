@@ -1,6 +1,7 @@
 \documentclass[runningheads]{llncs}
 %Packages---------------------------------
 \usepackage{bm}
+\usepackage{amsmath}
 %Macro------------------------------------
 \def\MPC{\mathsf{MPC}}
 \def\NIMPC{\mathsf{NIMPC}}
@@ -11,6 +12,8 @@
 \def\msg{\mathsf{Msg}}
 \def\gen{\mathsf{Gen}}
 \def\compile{\mathsf{Compile}}
+\def\psigen{\Psi_{\gen}}
+\def\psieval{\Psi_{\eval}}
 %-----------------------------------------
 \begin{document}
 
@@ -21,6 +24,8 @@ Best Possible Information-Theoretic Security for Multi-Party Computation ($\BITM
 \input{Intro.tex}
 
 \input{Compiler.tex}
+
+\input{Question.tex}
 
 \bibliographystyle{plain}
 \bibliography{references}

@@ -2,11 +2,37 @@
 In the paper \cite{BITMPC}, a compiler is presented which starts with an $\NIMPC$ protocol for a function $f$, and constructs a $\BITMPC$ protocol for $f$. In more detail, the ingredients for the compiler are protocols for parties $P_1,\ldots, P_n$: 
 \begin{itemize}
 \item An $n$-party $\NIMPC$ protocol $\Pi=\{\gen,\msg,\eval\}$ for an $n$-input function $f$.
-\item An $n$-party interactive $\MPC$ protocol $\Psi_{\gen}$ for the randomized $\gen$ function of $\Pi$.
-\item An $n$-party interactive $\MPC$ protocol $\Psi_{\eval}$ for the $\eval$ function of $\Pi$.
+\item An $n$-party interactive $\MPC$ protocol $\psigen$ for the randomized $\gen$ function of $\Pi$.
+\item An $n$-party interactive $\MPC$ protocol $\psieval$ for the $\eval$ function of $\Pi$.
 \end{itemize}
-Given these protocols, the resulting interactive protocol $\Phi = \compile(\Pi, \Psi_{\gen},\Psi_{\eval})$ is as follows. On inputs $x_1,\ldots, x_n$ held by $P_1,\ldots, P_n$ respectively:
+Given these protocols, the resulting interactive protocol $\Phi = \compile(\Pi, \psigen,\psieval)$ is as follows. On inputs $x_1,\ldots, x_n$ held by $P_1,\ldots, P_n$ respectively:
 \begin{enumerate}
-\item The parties run $\Psi_{\gen}$ to evaluate $\gen$; $r_i$ is the output of party $P_i$;
+\item The parties run $\psigen$ to evaluate $\gen$; $r_i$ is the output of party $P_i$;
 \item Each party $P_i$ computes locally $m_i=\msg(x_i,r_i)$;
+\item The parties run $\psieval$ each using $m_i$ as its input to the protocol, to get $y=\eval(m_1,\ldots,m_n)$.
 \end{enumerate}
+\begin{theorem}
+	Let $f$ be an $n$-input function, $\Pi$ a private $\NIMPC$ protocol for $f$, and let $\psigen$, $\psieval$ and the resulting $\Phi=\compile(\Pi, \psigen, \psieval)$ be as above.
+	Correctness: If $\psigen$  and $\psieval$ are correct then $\Phi$ is a correct protocol for $f$.
+	Security: For any subset $T\subseteq [n]$, the following holds:
+	\begin{itemize}
+	\item Residual Security: If $\psigen$ is correct and provides standard security against $T$, then $\Phi$ provides (at least) residual security against $T$.
+	\item Standard security: If $\psigen$ is correct and $\psieval$ is correct and provides standard security against $T$ then the resulting $\Phi$ also provides standard security against $T$. 
+	\end{itemize}
+\end{theorem}
+
+Using the above compiler, in the paper \cite{BITMPC}, another positive result is given that says that: 
+\begin{theorem}
+For every 4-input function $f$, there is a $1-\BITMPC$ interactive protocol for computing $f$.
+\end{theorem}
+\begin{proof}
+Let us assume that $P_1,P_2,P_3,P_4$ are parties who has input $x_1,x_2,x_3,x_4$ respectively and they want to compute $f(x_1,x_2,x_3,x_4)$.\\
+Let $\Pi=(\gen, \msg, \eval)$ be an $\NIMPC$ protocol for $f$ with general correlated randomness and interactive protocol for $\gen, \eval$ is as follows:
+	\begin{itemize}
+	\item For $\psigen$, we use a 1-of-3 BGW protocol, run by $P_2, P_3, P_4$, to generate the needed correlated randomness.
+	\item For $\psieval$, we use a 2-of-5 BGW protocol for evaluation, where $P_2,P_3,P_4$ each play a single party, and $P_1$ plays the role of two parties.
+	\end{itemize}
+	\textbf{If the number of corrupt parties is 1:} then both $\psigen$ and $\psieval$ provide standard security and hence by the construction of the compiler, $\Phi$ provides standard security against any set of corrupt parties with number of corrupt parties is 1.\\
+	\textbf{If the number of corrupt parties is 2:} If $P_1$ is corrupt then $\psieval$ is not secure but in $\psigen$ one party is corrupt, since 1 corruption is allowed in $\psigen$ it is secure, hence $\Phi$ is residual secure. If $P_1$ is not corrupt then two of $P_2,P_3,P_4$ are corrupt, which makes $\psigen$ insecure but $\psieval$ provides standard security against 2 corrupt parties, therefore $\psieval$ provides standard security, hence $\Phi$ has standard security.\\
+	\textbf{If the number of corrupt parties is 3:} Suppose $P_1,P_2,P_3$ are corrupt. Then they are allowed to learn the residual function. The residual function does not reveal any information about $P_4$'s input only if the function is independent of $P_4$'s input, this assumption implies a strict condition on the function. Therefore for any general fucntion the residual function of a 4-input function restricted on a set of size 3, reveals the input of the $4^{th}$ party. So security arguement is not required in this case. Note that this can be generalized to the fact that if $n-1$ parties are corrupt then residual security allows the adversary to learn the honest party's input.
+\end{proof}

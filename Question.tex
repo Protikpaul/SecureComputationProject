@@ -1,0 +1,17 @@
+\section{Question}
+\subsection{Why 4?}
+What is sacred about 4 such that solution worked? Can a similar construction done for any other $n$? Our first approach is to find a similar combination for n=5 such that either $\psigen$ or $\psieval$ is secure for corruption upto 3.
+\subsection{Difficulties for 5}
+In the beginning to satisfy the above constraints good number of random combinations were tried, but none of them satisfy the constraints.\\ %for example consider the following:\\
+Then next approach is to abstract out the problem in a system of linear inequality.\\
+Note that in the solution given in \cite{BITMPC} for 4-input function, for $\psigen$ parties were $P_2,P_3,P_4$, that can be viewed as $P_1$ with weight 0, $P_2,P_3,P_4$ with weight 1. Similarly, for $\psieval$ parties were $P_1, P_1, P_2,P_3,P_4$, which can be viewed as $P_1$ with weight 2 and $P_2,P_3,P_4$ with weight 1. Let $WtVecf_i$ is the weight of party $P_i$ for a protocol for the function $f(\gen/\eval$).\\
+Now consider $p_i$ as a boolean variable such that the party $P_i$ is honest iff $p_i=1$. Therefore we can say a protocol ($\psigen/\psieval$) for a function ($\gen /\eval$) is secure if 
+$$ \sum_{i\in[n]} WtVecf_i \times p_i > (\sum_{i\in[n]} WtVecf_i)/2$$.
+Therefore the whole problem can be viewed as:
+$$ \sum_{i\in[n]} WtVec\gen_i \times p_i > (\sum_{i\in[n]} WtVec\gen_i)/2$$ or
+$$ \sum_{i\in[n]} WtVec\eval_i \times p_i > (\sum_{i\in[n]} WtVec\eval_i)/2$$
+for all $(p_1,\ldots, p_n)$ such that number of zeros is $\leq n-2$.
+Therefore in the above system of linear inequality there are $2n$ variables( $n$ for $WtVec\gen$ and $n$ for $WtVec\eval$) and $(\binom{n}{1} + \binom{n}{2} +  \ldots + \binom{n}{n-2})$ many constraints as this is the total number of all possible binary strings of length $n$ with number of zeros $\leq n-2$.
+As the number of variables is much smaller than the number of constraints, so it's very unlikely that the above system of linear inequality will have any solution.\\
+If there is not any solution for this system of linear inequality then we can say that constructing a similar compiler for arbitrary n for any function is not possible.\\
+To check this for $n=5$ we have implemented and the result is that there is no combination till weight for all parties are 4.  
