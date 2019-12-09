@@ -14,4 +14,9 @@ for all $(p_1,\ldots, p_n)$ such that number of zeros is $\leq n-2$.
 Therefore in the above system of linear inequality there are $2n$ variables( $n$ for $WtVec\gen$ and $n$ for $WtVec\eval$) and $(\binom{n}{1} + \binom{n}{2} +  \ldots + \binom{n}{n-2})$ many constraints as this is the total number of all possible binary strings of length $n$ with number of zeros $\leq n-2$.
 As the number of variables is much smaller than the number of constraints, so it's very unlikely that the above system of linear inequality will have any solution.\\
 If there is not any solution for this system of linear inequality then we can say that constructing a similar compiler for arbitrary n for any function is not possible.\\
-To check this for $n=5$ we have implemented and the result is that there is no combination till weight for all parties are 4.  
+To check this for $n=5$ we have implemented and the result is that there is no combination till weight for all parties are 4. 
+Now the questions that we are trying answer is that:
+\begin{itemize}
+	\item Can we prove that for any $n>4$, there is not any arrangement for which the protocol is $\BITMPC$?
+	\item Can we construct a $\BITMPC$ protocol for smaller value of $n$, say 5, which is independent from the compiler?
+\end{itemize}
